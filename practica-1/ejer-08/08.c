@@ -2,11 +2,11 @@
 #include <stdlib.h>
 
 /*
-Desarrollar la función transponer?, que recibe por parámetro una matriz de int de
-tamaño F? x C? (matriz cuadrada, F=C) y la modifique por su transpuesta.
+Desarrollar la funciÃ³n transponer?, que recibe por parÃ¡metro una matriz de int de
+tamaÃ±o F x C (matriz cuadrada, F=C) y la modifique por su transpuesta.
 Desarrollar el programa principal que cargue una matriz, luego la muestre en pantalla. A
-continuación invocar a transponer ?y luego volver a imprimir para verificar su
-transpuesta. Utilizar cargarMat?, imprimirMat?, desarrolladas anteriormente.
+continuaciÃ³n invocar a transponer y luego volver a imprimir para verificar su
+transpuesta. Utilizar cargarMat, imprimirMat, desarrolladas anteriormente.
 */
 #define filas 3
 #define columnas 3
