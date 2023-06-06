@@ -113,6 +113,8 @@ int main(int argc, char *argv[]) {
 	ordenarArr(arreglo, n);
 	imprimirArreglo(arreglo, n);
 	
+	free(arreglo);
+	
 	return 0;
 }
 
