@@ -1,7 +1,7 @@
 producto, Precio unidad, cod Producto
 papel glace, 10.3, 736
-lapicera Bic, 7, 1024
+lapicera Bic, 700, 1024
 Goma Tinta, 9.6, 1821
 Lapiz HB, 4.7, 1848
 Regla 30, 18.9, 1810
-Escuadra 45, 1102.4, 1910
+Escuadra 45, 102.4, 1910
