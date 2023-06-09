@@ -17,8 +17,9 @@ struct s_nodo{
 };
 typedef struct s_nodo* t_nodo;
 
-
+// 	   ----------------
 //     #### CARGAS ####
+
 void append(t_nodo* nodo, producto producto){
 	if(*nodo == NULL){
 		
@@ -164,6 +165,8 @@ void imprimirListaRecursivoInv(t_nodo lista){
 	}
 }
 	
+	
+	
 // ###########	Eliminaciones ##########
 
 void eliminar_cod(t_nodo* nodo, int codigo){
@@ -286,22 +289,24 @@ void buscarRango(t_nodo* lista, t_nodo listaFiltrada,  int inf, int sup){
 }	
 	
 // ejers by Taesito
-void buscarMayorPrecio(t_nodo* lista, t_nodo listaFiltrada){
-	static float mayor = 0;
+void buscarMayorPrecio(t_nodo* lista, t_nodo listaFiltrada, int mayor){
+	
 	t_nodo auxiliar = NULL;
 	if(*lista != NULL){
 		if((*lista)->sig == NULL){
 			append(&listaFiltrada, auxiliar->producto);
 		}else if((*lista)->producto.precio > mayor){
-			auxiliar = (*lista);
+			auxiliar = *lista;
 			mayor = (*lista)->producto.precio;
 		}
-		buscarMayorPrecio(&((*lista)->sig), listaFiltrada);
+		buscarMayorPrecio(&((*lista)->sig), listaFiltrada, mayor);
 	}else{
 		printf(" ###### Lista Filtrada ######\n");
 		imprimirListaRecursivo(listaFiltrada);
 	}
 }
+	
+
 
 
 int main(int argc, char *argv[]) {
@@ -324,7 +329,7 @@ int main(int argc, char *argv[]) {
 	//buscarNombre(&lstProducto, lstFiltrada, "papel glace");
 	//buscarRango(&lstProducto, lstFiltrada, 7, 12);
 	//buscarVocales(&lstProducto, lstFiltrada);
-	buscarMayorPrecio(&lstProducto, lstFiltrada);
+	buscarMayorPrecio(&lstProducto, lstFiltrada, 0);
 	//imprimirListaRecursivo(listaFilRango);
 	
 	
