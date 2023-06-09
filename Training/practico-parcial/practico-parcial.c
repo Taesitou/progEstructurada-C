@@ -181,14 +181,157 @@ void imprimirRecursivoReverso(t_nodo lista){
 	
 //	#### ELIMINACIONES #####
 
+void eliminar_cod(t_nodo* nodo, int codigo){ // puntero al puntero del nodo inicial
+	//  para poder modificar el puntero al nodo original 
+	// pasas la direccion de memoria, osea el original, no una copia
+	t_nodo aux = NULL;
+	if(*nodo != NULL){
+		if((*nodo)->producto.codigo != codigo){
+				eliminar_cod(&((*nodo)->sig), codigo);
+		}else{
+			aux = (*nodo);  // se crea un puntero auxiliar y se asigna el puntero al nodo actual;
+			*nodo = (*nodo)->sig; // el puntero al nodo inicial empieza a apuntar al siguiente nodo
+								  // esto para omitir el nodo actual de la lista
+			free(aux); // se libera la memoria ocupada por el nodo eliminado 
+			// eliminar_cod(&((*nodo)), codigo); // para ocurrencias
+			
+			/*
+			creamos un auxiliar del nodo actual para despues eliminarlo
+			el nodo actual apunta al siguiente
+			eliminamos el auxiliar
+			
+			esto es para no perder la referencia al otro nodo
+			mas facil
+			auxiliar se convierte en elnodo
+			el nodo pasa a ser el siguiente
+			el auxiliar se borra
+			*/
+			
+		}
+	}
+	
+}
+	
+	
+void eliminar_nom(t_nodo* nodo, char* nombre){
+	t_nodo aux = NULL; // no le asignamos memoria ya que el uso es facilitar la eliminacion, no almacenar nuevos datos
+	// lo usamos para mantener temporalmente la referencia al nodo actual que se eliminara de la lista
+	// no necesita memory ya que auxiliar apuntaa al nodo existente, no se crea uno nuevo
+	if(*nodo != NULL){
+		if(strcmp((*nodo)->producto.nombre, nombre) != 0){
+			eliminar_nom(&((*nodo)->sig), nombre);
+		}else{
+			aux = *nodo;
+			*nodo = (*nodo)->sig;
+			free(aux);
+		}
+	}
+}
+
+
+void eliminar_rango(t_nodo* nodo,  float inf, float sup){
+	t_nodo aux = NULL;
+	if(*nodo !=NULL){
+		if((*nodo)->producto.precio >= inf && (*nodo)->producto.precio <= sup){
+			aux = *nodo;
+			*nodo = (*nodo)->sig;
+			free(aux);
+			eliminar_rango(&(*nodo), inf, sup); // para toda ocurrencia
+		}else{
+			eliminar_rango(&((*nodo)->sig), inf, sup);
+		}
+	}
+	
+}
+	
+//  #### BUSQUEDAS #######
+
+void buscarCodigo(t_nodo* nodo, t_nodo lstFiltrada, int codigo ){
+	if(*nodo != NULL){
+		if((*nodo)->producto.codigo == codigo){ // el nodo actual coincide con el codigo?
+			append(&lstFiltrada, (*nodo)->producto); // si coincide meter el producto en la nueva lista
+		}
+		buscarCodigo(&((*nodo)->sig), lstFiltrada, codigo); // sino coincide seguir
+	}else{
+		printf("###### Lista Filtrada ##########\n");
+		imprimirRecursivo(lstFiltrada);
+		
+	}
+}
+	
+	
+	
+void buscarNombre(t_nodo* nodo, t_nodo lstFiltrada, char* nombre){
+	if(*nodo != NULL){
+		if(strcmp((*nodo)->producto.nombre, nombre) == 0){
+			append(&lstFiltrada, (*nodo)->producto);
+		}
+		buscarNombre(&((*nodo)->sig), lstFiltrada, nombre );
+	}else{
+		printf("###### Lista Filtrada ##########\n");
+		imprimirRecursivo(lstFiltrada);
+	}
+}
+	
+	
+void buscarRango(t_nodo* nodo, t_nodo lstFiltrada, float inf, float sup){
+	if(*nodo != NULL){
+		if((*nodo)->producto.precio >= inf && (*nodo)->producto.precio <= sup){
+			append(&lstFiltrada, (*nodo)->producto);
+		}
+		buscarRango(&((*nodo)->sig), lstFiltrada, inf, sup);
+	}else{
+		printf("###### Lista Filtrada ##########\n");
+		imprimirRecursivo(lstFiltrada);
+	}
+}
+	
+	
+int esVocal(char* string){
+	if(*string != '\0'){
+		int Vocal = ((*string ==  'a' || *string ==  'e' || *string ==  'i' || *string == 'o' || *string ==  'u')||(*string ==  'A' || *string ==  'E' || *string ==  'I' || *string ==  'O' || *string ==  'U' ));
+		return Vocal + esVocal(string+1) ;
+	}
+	
+}
+	
+
+void buscarVocal(t_nodo* nodo, t_nodo lstFiltrada){
+	if(*nodo != NULL){
+		if(esVocal((*nodo)->producto.nombre) == 4){
+			append(&lstFiltrada, (*nodo)->producto );
+			
+		}
+		buscarVocal(&((*nodo)->sig), lstFiltrada);
+	}
+	else{
+		printf("###### Lista Filtrada ##########\n");
+		imprimirRecursivo(lstFiltrada);		
+	}
+}
+
+
 int main(int argc, char *argv[]) {
 	t_nodo lstProductos = NULL;
-	
+	t_nodo lstFiltrada = NULL;
 	cargarArch(&lstProductos);
 	
 	//imprimir(lstProductos);
-	//imprimirRecursivo(lstProductos);
-	imprimirRecursivoReverso(lstProductos);
+	imprimirRecursivo(lstProductos);
+	//imprimirRecursivoReverso(lstProductos);
+	
+	printf("-----------------\n");
+	
+	
+	//eliminar_cod(&lstProductos, 1821);
+	//eliminar_nom(&lstProductos, "Goma Tinta");
+	//eliminar_rango(&lstProductos, 7, 10);
+	
+	//buscarCodigo(&lstProductos, lstFiltrada, 1821);
+	//buscarNombre(&lstProductos, lstFiltrada, "Goma Tinta");
+	//buscarRango(&lstProductos, lstFiltrada, 7, 10);
+	buscarVocal(&lstProductos, lstFiltrada);
+	//imprimirRecursivo(lstFiltrada);
 		
 	return 0;
 }
