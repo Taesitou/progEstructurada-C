@@ -289,14 +289,15 @@ void buscarRango(t_nodo* lista, t_nodo listaFiltrada,  int inf, int sup){
 }	
 	
 // ejers by Taesito
-void buscarMayorPrecio(t_nodo* lista, t_nodo listaFiltrada, int mayor){
+void buscarMayorPrecio(t_nodo* lista, t_nodo listaFiltrada, float mayor){
 	
-	t_nodo auxiliar = NULL;
+	t_nodo* auxiliar = NULL;
+	*auxiliar = malloc(sizeof(struct s_nodo)); 
 	if(*lista != NULL){
 		if((*lista)->sig == NULL){
-			append(&listaFiltrada, auxiliar->producto);
+			append(&listaFiltrada, (*auxiliar)->producto);
 		}else if((*lista)->producto.precio > mayor){
-			auxiliar = *lista;
+			(*auxiliar)->producto = (*lista)->producto;
 			mayor = (*lista)->producto.precio;
 		}
 		buscarMayorPrecio(&((*lista)->sig), listaFiltrada, mayor);
